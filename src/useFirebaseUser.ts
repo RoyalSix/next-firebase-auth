@@ -20,7 +20,7 @@ const defaultTokenChangedHandler = async (user: User) => {
   } = getConfig()
   let response
   // If the user is authed, call login to set a cookie.
-  if (user.id) {
+  if (user.id && user.email) {
     // Prefixing with "[withUser]" because that's currently the only
     // place we use this logic.
     logDebug('[withUser] Calling the login endpoint.')

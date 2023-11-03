@@ -109,7 +109,7 @@ const setAuthCookies: SetAuthCookies = async (
     cookieOptions
   )
 
-  if (user.id) {
+  if (user.id && user.email) {
     logDebug('[setAuthCookies] Set auth cookies for an authenticated user.')
   } else {
     logDebug(

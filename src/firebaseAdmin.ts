@@ -200,7 +200,7 @@ export const verifyIdToken: VerifyIdToken = async (
     firebaseUserAdminSDK: firebaseUser,
     token: newToken,
   })
-  if (user.id) {
+  if (user.id && user.email) {
     logDebug(
       `[verifyIdToken] Successfully verified the ID token. The user is authenticated.`
     )
