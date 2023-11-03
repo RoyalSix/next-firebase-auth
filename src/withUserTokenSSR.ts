@@ -109,7 +109,7 @@ const withUserTokenSSR: WithUserSSR =
     }
 
     // If specified, redirect to the app page if the user is authed.
-    if (user.id && whenAuthed === AuthAction.REDIRECT_TO_APP) {
+    if (user.id && user.email && whenAuthed === AuthAction.REDIRECT_TO_APP) {
       logDebug('[withUserSSR] Redirecting to app.')
       const redirect = getAppRedirectInfo({
         ctx,

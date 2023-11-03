@@ -134,7 +134,7 @@ const withUser: WithUser =
       // session.
       const user = firebaseInitialized ? userFromClient : userFromServer
 
-      const isAuthed = !!user.id
+      const isAuthed = !!user.id && !!user.email && !user.isAnonymous
       const isInitialized = user.clientInitialized
 
       // Redirect to the app if all are true:
