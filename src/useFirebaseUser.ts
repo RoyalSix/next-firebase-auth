@@ -179,12 +179,12 @@ const useFirebaseUser = () => {
       '[withUser] Subscribed to the Firebase "onIdTokenChanged" event. - 1'
     )
     // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#onidtokenchanged
-    const unsubscribe = onIdTokenChanged(getAuth(getApp()), onIdTokenChange)
+    onIdTokenChanged(getAuth(getApp()), onIdTokenChange)
     logDebug(
       '[withUser] Subscribed to the Firebase "onIdTokenChanged" event. - 2'
     )
     return () => {
-      unsubscribe()
+      // unsubscribe()
       logDebug(
         '[withUser] Unsubscribed from the Firebase "onIdTokenChanged" event.'
       )
