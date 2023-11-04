@@ -135,6 +135,7 @@ const withUser: WithUser =
       const user = firebaseInitialized ? userFromClient : userFromServer
 
       const isAuthed = !!user.id && !!user.email && !user.isAnonymous
+      logDebug('[withUser] isAuthed', isAuthed)
       const isInitialized = user.clientInitialized
 
       // Redirect to the app if all are true:
@@ -144,8 +145,12 @@ const withUser: WithUser =
       //   (see: https://github.com/gladly-team/next-firebase-auth/issues/189)
       const willRedirectToApp =
         isAuthed && whenAuthed === AuthAction.REDIRECT_TO_APP
+      logDebug('[withUser] willRedirectToApp', willRedirectToApp)
+      logDebug('[withUser] isAuthed', isAuthed)
+      logDebug('[withUser] whenAuthed', whenAuthed)
       const shouldRedirectToApp =
         willRedirectToApp && isClientSide() && authRequestCompleted
+      logDebug('[withUser] authRequestCompleted', authRequestCompleted)
 
       // Redirect to the login page if the user is not authed and one of these
       // is true:
@@ -160,6 +165,10 @@ const withUser: WithUser =
           whenUnauthedBeforeInit === AuthAction.REDIRECT_TO_LOGIN) ||
           (isInitialized &&
             whenUnauthedAfterInit === AuthAction.REDIRECT_TO_LOGIN))
+      logDebug('[withUser] isAuthed', isAuthed)
+      logDebug('[withUser] isInitialized', isInitialized)
+      logDebug('[withUser] whenUnauthedBeforeInit', whenUnauthedBeforeInit)
+      logDebug('[withUser] whenUnauthedAfterInit', whenUnauthedAfterInit)
       const shouldRedirectToLogin =
         willRedirectToLogin &&
         isClientSide() &&
@@ -168,6 +177,8 @@ const withUser: WithUser =
         (whenUnauthedBeforeInit !== AuthAction.REDIRECT_TO_LOGIN
           ? authRequestCompleted
           : true)
+      logDebug('[withUser] authRequestCompleted', willRedirectToLogin)
+      logDebug('[withUser] isClientSide', isClientSide())
 
       const router = useRouter()
       const routeToDestination = useCallback(
@@ -206,8 +217,10 @@ const withUser: WithUser =
           return
         }
         if (shouldRedirectToApp) {
+          logDebug('[withUser] shouldRedirectToApp = true')
           redirectToApp()
         } else if (shouldRedirectToLogin) {
+          logDebug('[withUser] shouldRedirectToLogin = true')
           redirectToLogin()
         }
       }, [
