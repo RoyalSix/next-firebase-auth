@@ -155,8 +155,9 @@ const useFirebaseUser = () => {
         claims: customClaims,
         initialized: true,
       })
-
+      logDebug('[withUser] Pre setAuthCookie')
       await setAuthCookie(firebaseUser || undefined)
+      logDebug('[withUser] Post setAuthCookie')
 
       // Cancel state updates if the component has unmounted. We could abort
       // fetches, but that would not currently support any async logic in the
@@ -174,9 +175,14 @@ const useFirebaseUser = () => {
       }
     }
 
+    logDebug(
+      '[withUser] Subscribed to the Firebase "onIdTokenChanged" event. - 1'
+    )
     // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#onidtokenchanged
     const unsubscribe = onIdTokenChanged(getAuth(getApp()), onIdTokenChange)
-    logDebug('[withUser] Subscribed to the Firebase "onIdTokenChanged" event.')
+    logDebug(
+      '[withUser] Subscribed to the Firebase "onIdTokenChanged" event. - 2'
+    )
     return () => {
       unsubscribe()
       logDebug(
