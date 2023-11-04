@@ -12,12 +12,7 @@ import { Claims, filterStandardClaims } from 'src/claims'
 import logDebug from 'src/logDebug'
 
 const defaultTokenChangedHandler = async (user: User) => {
-  const {
-    loginAPIEndpoint,
-    logoutAPIEndpoint,
-    onLoginRequestError,
-    onLogoutRequestError,
-  } = getConfig()
+  const { loginAPIEndpoint, onLoginRequestError } = getConfig()
   let response
   // If the user is authed, call login to set a cookie.
   if (user.id && user.email) {
@@ -61,40 +56,39 @@ const defaultTokenChangedHandler = async (user: User) => {
       }
     }
   } else {
-    // If the user is not authed, call logout to unset the cookie.
-    logDebug('[withUser] Calling the logout endpoint.')
-    if (!logoutAPIEndpoint) {
-      throw new Error('Invalid config.')
-    }
-    try {
-      response = await fetch(logoutAPIEndpoint, {
-        method: 'POST',
-        credentials: 'include',
-      })
-      if (!response.ok) {
-        const responseJSON = await response.json()
-        logDebug(
-          `[withUser] The call to the logout endpoint failed with status ${
-            response.status
-          } and response: ${JSON.stringify(responseJSON)}`
-        )
-
-        // If the developer provided a handler for logout errors,
-        // call it and don't throw.
-        // https://github.com/gladly-team/next-firebase-auth/issues/367
-        throw new Error(
-          `Received ${
-            response.status
-          } response from logout API endpoint: ${JSON.stringify(responseJSON)}`
-        )
-      }
-    } catch (err) {
-      if (onLogoutRequestError && err instanceof Error) {
-        await onLogoutRequestError(err)
-      } else {
-        throw err
-      }
-    }
+    // // If the user is not authed, call logout to unset the cookie.
+    // logDebug('[withUser] Calling the logout endpoint.')
+    // if (!logoutAPIEndpoint) {
+    //   throw new Error('Invalid config.')
+    // }
+    // try {
+    //   response = await fetch(logoutAPIEndpoint, {
+    //     method: 'POST',
+    //     credentials: 'include',
+    //   })
+    //   if (!response.ok) {
+    //     const responseJSON = await response.json()
+    //     logDebug(
+    //       `[withUser] The call to the logout endpoint failed with status ${
+    //         response.status
+    //       } and response: ${JSON.stringify(responseJSON)}`
+    //     )
+    //     // If the developer provided a handler for logout errors,
+    //     // call it and don't throw.
+    //     // https://github.com/gladly-team/next-firebase-auth/issues/367
+    //     throw new Error(
+    //       `Received ${
+    //         response.status
+    //       } response from logout API endpoint: ${JSON.stringify(responseJSON)}`
+    //     )
+    //   }
+    // } catch (err) {
+    //   if (onLogoutRequestError && err instanceof Error) {
+    //     await onLogoutRequestError(err)
+    //   } else {
+    //     throw err
+    //   }
+    // }
   }
   return response
 }
