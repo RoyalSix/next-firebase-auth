@@ -117,7 +117,7 @@ const withUser: WithUser =
         claims,
         initialized: firebaseInitialized,
         authRequestCompleted,
-      } = useFirebaseUser()
+      } = useFirebaseUser(userSerialized)
       const userFromClient = useMemo(
         () =>
           createUser({

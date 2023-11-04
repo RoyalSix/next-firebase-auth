@@ -117,7 +117,7 @@ const setAuthCookie = async (firebaseUser?: FirebaseUser) => {
   return defaultTokenChangedHandler(user)
 }
 
-const useFirebaseUser = () => {
+const useFirebaseUser = (userSerialized: string | undefined) => {
   const [userInfo, setUserInfo] = useState<{
     user: FirebaseUser | null
     claims?: Claims
@@ -190,7 +190,7 @@ const useFirebaseUser = () => {
       )
       isCancelled = true
     }
-  }, [])
+  }, [userSerialized])
 
   return {
     ...userInfo,
