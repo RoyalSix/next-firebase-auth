@@ -178,6 +178,9 @@ const useFirebaseUser = () => {
     const unsubscribe = onIdTokenChanged(getAuth(getApp()), onIdTokenChange)
     return () => {
       unsubscribe()
+      logDebug(
+        '[withUser] Unsubscribed from the Firebase "onIdTokenChanged" event.'
+      )
       isCancelled = true
     }
   }, [])
